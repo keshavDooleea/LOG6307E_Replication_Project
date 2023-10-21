@@ -44,7 +44,8 @@ class CriteriasApplication:
         # get all files in repository
         owner_name = repo["owner"]["login"]
         repo_name = repo["name"]
-        repo_files_url = f"https://api.github.com/repos/{owner_name}/{repo_name}/git/trees/master?recursive=1"
+        branch = repo["default_branch"]
+        repo_files_url = f"https://api.github.com/repos/{owner_name}/{repo_name}/git/trees/{branch}?recursive=1"
 
         files_response = RequestHelper.get_api_response(repo_files_url)
         if not files_response:
