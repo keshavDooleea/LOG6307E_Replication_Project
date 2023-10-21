@@ -1,6 +1,5 @@
-import requests
+from steps.repository_collection.main import execute_repositories_collection
 
-r = requests.get('https://httpbin.org/basic-auth/user/pass', auth=('user', 'pass'))
-print(r)
+if __name__ == "__main__":
+    execute_repositories_collection()
 
-print("DONE")
