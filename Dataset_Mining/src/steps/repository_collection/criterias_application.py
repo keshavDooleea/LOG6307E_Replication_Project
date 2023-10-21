@@ -4,8 +4,9 @@ from datetime import datetime
 
 class CriteriasApplication:
 
-    def __init__(self, repos: list):
+    def __init__(self, repos: list, criterias_count):
         self.repos = repos
+        self.criterias_count = criterias_count
 
     # entry point to filter out repos based on 3 criterias applications
     def apply_criterias(self):
@@ -13,25 +14,28 @@ class CriteriasApplication:
             print("Exiting criterias application")
             return
 
-        selected_repos = []
-
         for repo in self.repos: 
             # apply criteria 1
             is_repo_downloadable = self.__apply_criteria_1(repo)
             if not is_repo_downloadable:
                 continue
+            else:
+                self.criterias_count.increase_count("c1")
 
             # apply criteria 2
             is_iac_files = self.__apply_criteria_2(repo)
             if not is_iac_files:
                 continue
+            else:
+                self.criterias_count.increase_count("c2")
 
             # apply criteria 3
             has_enough_monthly_commits = self.__apply_criteria_3(repo)
             if has_enough_monthly_commits:
-                selected_repos.append(repo)
+                self.criterias_count.increase_count("c3")
+                self.criterias_count.add_repo(repo)
 
-        return selected_repos
+        return self.criterias_count
 
 
     # checks if a file is an iac script
