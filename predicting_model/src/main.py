@@ -1,13 +1,13 @@
 import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
-from sklearn.model_selection import RepeatedStratifiedKFold, cross_val_score
+from sklearn.model_selection import RepeatedKFold, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
-from typing import List, Dict
+from typing import List
 
 
 def get_n_components_for_95_variance(X_scaled: pd.DataFrame) -> int:
@@ -28,31 +28,21 @@ def get_n_components_for_95_variance(X_scaled: pd.DataFrame) -> int:
     return n_components
 
 
-def calculate_statistical_learners(
-    X: np.ndarray, y: pd.Series, metric: str
-) -> Dict[str, float]:
+def calculate_pca_components(datasets, cols):
     """
-    Calculates the evaluation metric for various statistical models using 10-fold cross-validation.
+    Calculates the number of principal components required to explain at least 95% of the variance for each dataset.
 
     Parameters:
-        X (np.ndarray): The feature matrix after PCA.
-        y (pd.Series): The target variable.
-        metric (str): The evaluation metric to use ("precision", "recall", "f1", "roc_auc").
+        datasets (List[pd.DataFrame]): List of datasets to perform PCA on.
+        cols (List[str]): Columns to include for PCA.
 
     Returns:
-        Dict[str, float]: A dictionary containing the median of the evaluation metric for each model.
+        List[int]: List of integers indicating the number of principal components required for each dataset.
     """
-    org_dict = {}
-    for model_name, model in [
-        ("CART", tree.DecisionTreeClassifier()),
-        ("KNN", KNeighborsClassifier()),
-        ("LR", LogisticRegression(solver="lbfgs")),
-        ("NB", GaussianNB()),
-        ("RF", RandomForestClassifier(random_state=0)),
-    ]:
-        scores = cross_val_score(model, X, y, cv=10, scoring=metric)
-        org_dict[model_name] = round(np.median(scores), 3)
-    return org_dict
+    return [
+        get_n_components_for_95_variance(data[cols[2:-1]].apply(np.log1p))
+        for data in datasets
+    ]
 
 
 def perform_10x10_cross_val(X: np.ndarray, y: pd.Series, model, metric: str) -> float:
@@ -68,8 +58,7 @@ def perform_10x10_cross_val(X: np.ndarray, y: pd.Series, model, metric: str) -> 
     Returns:
         float: The median of the evaluation metric across the 10x10 cross-validation folds.
     """
-    unique_classes = np.unique(y)
-    rkf = RepeatedStratifiedKFold(n_splits=10, n_repeats=10, random_state=0)
+    rkf = RepeatedKFold(n_splits=10, n_repeats=10, random_state=0)
 
     scores = cross_val_score(model, X, y, cv=rkf, scoring=metric)
 
@@ -105,10 +94,7 @@ def main() -> None:
     print(
         "Step 2: Calculating required number of principal components for each dataset..."
     )
-    pcas: List[int] = []
-    for df in dataset:
-        X = df[columns[2:-1]].apply(lambda x: np.log(x + 1))
-        pcas.append(get_n_components_for_95_variance(X))
+    pcas: List[int] = calculate_pca_components(datasets=dataset, cols=columns)
     print(f"Required PCs for each dataset: {pcas}")
 
     metrics: List[str] = ["precision", "recall", "f1", "roc_auc"]
@@ -119,14 +105,14 @@ def main() -> None:
         for index, df in enumerate(dataset):
             print(f"Processing dataset {index + 1}...")
             y = df[columns[-1]]
-            df_log = df[columns[2:14]].apply(lambda x: np.log(x + 1))
+
+            df_log = df[columns[2:-1]].apply(lambda x: np.log(x + 1))
 
             print("Performing PCA transformation...")
             pca = PCA(n_components=pcas[index])
             df_pca = pca.fit_transform(df_log)
 
-            print("Calculating statistical learners...")
-            org_dict = calculate_statistical_learners(df_pca, y, metric)
+            org_dict = {}
 
             print("Performing 10x10 Cross Validation...")
             for model_name, model in [
