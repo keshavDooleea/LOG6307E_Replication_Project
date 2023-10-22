@@ -104,9 +104,11 @@ def main() -> None:
         results = {}
         for index, df in enumerate(dataset):
             print(f"Processing dataset {index + 1}...")
-            y = df[columns[-1]]
+            target_col = columns[-1]
+            y = df.loc[:, target_col]
 
-            df_log = df[columns[2:-1]].apply(lambda x: np.log(x + 1))
+            feature_cols = columns[2:-1]
+            df_log = df[feature_cols].apply(lambda col_data: np.log1p(col_data))
 
             print("Performing PCA transformation...")
             pca = PCA(n_components=pcas[index])
