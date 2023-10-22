@@ -5,7 +5,7 @@ from steps.repository_collection.repositories_via_json import (
 from steps.commit_msg_processing.main import CommitMsgProcessing
 from helpers.request import RequestHelper
 from helpers.json import JsonHelper
-
+from sys import exit
 
 def apply_repo_collection():
     repo_collection = RepositoryCollectionViaAPI()
@@ -32,6 +32,10 @@ def apply_commit_msg_processing():
 if __name__ == "__main__":
     rate_limit = RequestHelper.get_rate_limit()
     print(rate_limit)
+
+    if rate_limit["remaining"] == 0:
+        print("not enough rate")
+        exit(0)
 
     # apply_repo_collection()
     apply_commit_msg_processing()

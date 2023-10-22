@@ -67,7 +67,6 @@ class CommitMsgProcessing:
                 
                 print(f"#{idx + 1}: Found", len(extended_commit_messages[repo_name]), "extended commit messages for", repo_name)
 
-
-            org_xcm = JsonHelper.read(f"output/extended_commit_messages/{org}.json")
-            org_xcm[repo_name] = extended_commit_messages[repo_name]
-            JsonHelper.write(org_xcm, f"output/extended_commit_messages/{org}.json")
+                org_xcm = JsonHelper.read(f"output/extended_commit_messages/{org}.json")
+                org_xcm[repo_name] = extended_commit_messages[repo_name]
+                JsonHelper.write(org_xcm, f"output/extended_commit_messages/{org}.json")
