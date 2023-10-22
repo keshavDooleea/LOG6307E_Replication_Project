@@ -25,5 +25,5 @@ class GitHelper:
         return [
             GitHelper.get_mirantis_detail(), 
             GitHelper.get_wikimedia_detail(), 
-            GitHelper.get_openstack_detail()
+            # GitHelper.get_openstack_detail()
         ]

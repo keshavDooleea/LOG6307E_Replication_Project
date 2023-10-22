@@ -8,12 +8,16 @@ from helpers.git import GitHelper
 from helpers.util import Util
 from helpers.json import JsonHelper
 from time import sleep
+from helpers.request import RequestHelper
 
 class RepositoryCollectionViaAPI:
 
     def __init__(self):
         print(f"Preparing dataset for 3.1.1. Repository collection. Fetching API.")
         self.dataset = {}
+
+        rate_limit = RequestHelper.get_rate_limit()
+        print(rate_limit)
 
     def create_dataset(self):
         for org in GitHelper.get_repos_name():
