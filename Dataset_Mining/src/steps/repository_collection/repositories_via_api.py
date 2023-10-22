@@ -26,7 +26,7 @@ class RepositoryCollectionViaAPI:
             print("Mining", org_name)
 
             criterias_count = CriteriaCount(org_name)
-            self.get_repositories_per_page(org, 1, 100, criterias_count, total_repos)
+            self.get_repositories_per_page(org, 1, org["per_page"], criterias_count, total_repos, org["add_token"])
             self.dataset[org_name] = criterias_count
             Util.separate_line()
             criterias_count.print_count()
@@ -37,14 +37,14 @@ class RepositoryCollectionViaAPI:
         print(f"Finished 3.1.1. Repository collection")
 
 
-    def get_repositories_per_page(self, org, page_nb, per_page, criterias_count, total_repos):
+    def get_repositories_per_page(self, org, page_nb, per_page, criterias_count, total_repos, add_token):
         curr_repos_len = criterias_count.get_repos_length()
         org_name = org["name"]
         print(f"Fetching page {page_nb} for {org_name} - currently {curr_repos_len} repo{'s' if curr_repos_len > 1 else ''} found")
 
         org_url = org["url"]
         url = f"https://{org_url}/orgs/{org_name}/repos?page={page_nb}&per_page={per_page}"
-        repos = RequestHelper.get_api_response(url)
+        repos = RequestHelper.get_api_response(url, add_token)
         total_repos += repos
         sleep(0.3)
 
@@ -53,7 +53,7 @@ class RepositoryCollectionViaAPI:
 
         # handle pagination: if lenght of response is 100, means there can be more on the next page
         if len(repos) == per_page:
-            self.get_repositories_per_page(org, page_nb + 1, per_page, criterias_count, total_repos)
+            self.get_repositories_per_page(org, page_nb + 1, per_page, criterias_count, total_repos, add_token)
 
 
 

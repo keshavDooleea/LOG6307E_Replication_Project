@@ -14,15 +14,15 @@ class GitHelper:
 
     @staticmethod
     def get_mirantis_detail():
-        return {"name": "Mirantis", "url": "api.github.com"}
+        return {"name": "Mirantis", "url": "api.github.com", "per_page": 100, "add_token": True }
 
     @staticmethod
     def get_openstack_detail():
-        return {"name": "Openstack", "url": "opendev.org/api/v1"}
+        return {"name": "Openstack", "url": "opendev.org/api/v1", "per_page": 30, "add_token": False }
 
     @staticmethod
     def get_wikimedia_detail():
-        return {"name": "Wikimedia", "url": "api.github.com"}
+        return {"name": "Wikimedia", "url": "api.github.com", "per_page": 100, "add_token": True }
 
     @staticmethod
     def get_repos_name():

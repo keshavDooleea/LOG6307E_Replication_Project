@@ -11,7 +11,6 @@ def apply_repo_collection():
     repo_collection = RepositoryCollectionViaAPI()
     # repo_collection = RepositoryCollectionViaJSON()
     repo_collection.create_dataset()
-    dataset = repo_collection.dataset
 
     return
 
@@ -20,7 +19,7 @@ def apply_commit_msg_processing():
     dataset = {
         "Mirantis": JsonHelper.read("output/selected_repos/Mirantis.json"),
         "Wikimedia": JsonHelper.read("output/selected_repos/Wikimedia.json"),
-        "Openstack": [],
+        "Openstack": JsonHelper.read("output/selected_repos/Openstack.json"),
     }
 
     msg_processing = CommitMsgProcessing(dataset)

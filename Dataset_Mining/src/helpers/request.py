@@ -8,12 +8,13 @@ class RequestHelper:
         return RequestHelper.get_api_response("https://api.github.com/rate_limit")["rate"]
 
     @staticmethod
-    def get_api_response(url: str):
+    def get_api_response(url: str, add_token = True):
         token = get_github_token()
 
-        headers = {
-            'Authorization': f'token {token}'
-        }
+        if add_token:
+            headers = { 'Authorization': f'token {token}' }
+        else:
+            headers = {}
 
         try:
             response = requests.get(url, headers=headers)
