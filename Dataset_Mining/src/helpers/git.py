@@ -1,5 +1,5 @@
 class GitHelper:
-
+    
     # get common info from repo
     @staticmethod
     def get_repo_details(repo):
@@ -9,21 +9,21 @@ class GitHelper:
         return owner_name, repo_name
     
     @staticmethod
-    def get_mirantis_name():
-        return "Mirantis"
+    def get_mirantis_detail():
+        return { "name": "Mirantis", "url": "api.github.com" }
     
     @staticmethod
-    def get_openstack_name():
-        return "Openstack"
+    def get_openstack_detail():
+        return { "name": "Openstack", "url": "opendev.org/api/v1" }
     
     @staticmethod
-    def get_wikimedia_name():
-        return "Wikimedia"
+    def get_wikimedia_detail():
+        return { "name": "Wikimedia", "url": "api.github.com" }
     
     @staticmethod
     def get_repos_name():
         return [
-            GitHelper.get_mirantis_name(), 
-            GitHelper.get_wikimedia_name(), 
-            # GitHelper.get_openstack_name()
+            GitHelper.get_mirantis_detail(), 
+            GitHelper.get_wikimedia_detail(), 
+            GitHelper.get_openstack_detail()
         ]

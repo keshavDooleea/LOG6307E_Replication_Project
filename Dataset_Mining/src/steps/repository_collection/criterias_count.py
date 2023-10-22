@@ -22,4 +22,4 @@ class CriteriaCount:
         print("Criteria 1   :", self.criterias_count["c1"])
         print("Criteria 2   :", self.criterias_count["c2"])
         print("Criteria 3   :", self.criterias_count["c3"])
-        print("Total repos  :", self.get_repos_length())
+        # print("Total repos  :", self.get_repos_length())

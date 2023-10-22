@@ -4,7 +4,8 @@ from datetime import datetime
 
 class CriteriasApplication:
 
-    def __init__(self, repos: list, criterias_count):
+    def __init__(self, org_url: str, repos: list, criterias_count):
+        self.org_url = org_url
         self.repos = repos
         self.criterias_count = criterias_count
 
@@ -56,7 +57,7 @@ class CriteriasApplication:
         # get all files in repository
         owner_name, repo_name = GitHelper.get_repo_details(repo)
         branch = repo["default_branch"]
-        repo_files_url = f"https://api.github.com/repos/{owner_name}/{repo_name}/git/trees/{branch}?recursive=1"
+        repo_files_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}/git/trees/{branch}?recursive=1"
 
         files_response = RequestHelper.get_api_response(repo_files_url)
         if not files_response:
@@ -72,7 +73,7 @@ class CriteriasApplication:
                 iac_files.append(file)
 
         # compare iac files with threshold
-        return len(iac_files) / len(files) >= iac_threshold
+        return (len(iac_files) / len(files)) >= iac_threshold
 
 
     # The repository must have at least two commits per month
@@ -86,7 +87,7 @@ class CriteriasApplication:
         monthly_commits_threshold = 2
 
         owner_name, repo_name = GitHelper.get_repo_details(repo)
-        commits_url = f"https://api.github.com/repos/{owner_name}/{repo_name}/commits?per_page={per_page}&page={page_nb}"
+        commits_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}/commits?per_page={per_page}&page={page_nb}"
         commits_response = RequestHelper.get_api_response(commits_url)
 
         # set monthly commits counter
@@ -98,7 +99,7 @@ class CriteriasApplication:
                 monthly_commits[month_year] += 1
             else:
                 monthly_commits[month_year] = 1
-
+             
         # compare monthly commits nb
         for month_year, commit_count in monthly_commits.items():
             if commit_count < monthly_commits_threshold:
@@ -107,5 +108,5 @@ class CriteriasApplication:
         # handle pagination: if lenght of response is 100, means there can be more on the next page
         if len(commits_response) == per_page:
             return self.get_commits_per_page(repo, page_nb + 1, per_page, monthly_commits)
-        
+   
         return True
