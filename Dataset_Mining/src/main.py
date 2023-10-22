@@ -33,5 +33,7 @@ if __name__ == "__main__":
     rate_limit = RequestHelper.get_rate_limit()
     print(rate_limit)
 
-    apply_repo_collection()
-    # apply_commit_msg_processing()
+    # apply_repo_collection()
+    apply_commit_msg_processing()
+
+
