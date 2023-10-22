@@ -92,7 +92,12 @@ class CriteriasApplication:
 
         # set monthly commits counter
         for commit in commits_response:
-            commit_date = datetime.strptime(commit['commit']['author']['date'], '%Y-%m-%dT%H:%M:%SZ')
+            commit_date = commit['commit']['author']['date']
+            try:
+                commit_date = datetime.strptime(commit_date, '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                commit_date = datetime.strptime(commit_date, '%Y-%m-%dT%H:%M:%S%z')
+            
             month_year = commit_date.strftime('%Y-%m')
 
             if month_year in monthly_commits:

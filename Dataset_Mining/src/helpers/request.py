@@ -4,6 +4,10 @@ from helpers.env import get_github_token
 class RequestHelper:
 
     @staticmethod
+    def get_rate_limit():
+        return RequestHelper.get_api_response("https://api.github.com/rate_limit")["rate"]
+
+    @staticmethod
     def get_api_response(url: str):
         token = get_github_token()
 
