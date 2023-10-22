@@ -8,8 +8,8 @@ from helpers.json import JsonHelper
 from sys import exit
 
 def apply_repo_collection():
-    repo_collection = RepositoryCollectionViaAPI()
-    # repo_collection = RepositoryCollectionViaJSON()
+    # repo_collection = RepositoryCollectionViaAPI() # use this when you want to fetch all repos online
+    repo_collection = RepositoryCollectionViaJSON() # use this if all the repos were saved in a JSON file in output/all_repos
     repo_collection.create_dataset()
 
     return
@@ -36,7 +36,7 @@ if __name__ == "__main__":
         print("not enough rate")
         exit(0)
 
-    # apply_repo_collection()
-    apply_commit_msg_processing()
+    apply_repo_collection()
+    # apply_commit_msg_processing()
 
 

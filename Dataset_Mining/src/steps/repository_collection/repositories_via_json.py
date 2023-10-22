@@ -22,7 +22,7 @@ class RepositoryCollectionViaJSON:
             print("Mining", len(repos), "repos for", org_name)
 
             criterias_count = CriteriaCount(org_name)
-            criterias_app = CriteriasApplication(org["url"], repos, criterias_count)
+            criterias_app = CriteriasApplication(org, repos, criterias_count)
             criterias_app.apply_criterias()
 
             self.dataset[org_name] = criterias_count
