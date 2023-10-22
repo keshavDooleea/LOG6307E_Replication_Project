@@ -19,7 +19,7 @@ class CriteriasApplication:
 
         for idx, repo in enumerate(self.repos):
 
-            print(f"{idx}: Applying criterias for", repo["name"], "repo") 
+            print(f"#{idx}: Applying criterias for", repo["name"], "repo") 
 
             # apply criteria 1
             is_repo_downloadable = self.__apply_criteria_1(repo)
@@ -111,13 +111,21 @@ class CriteriasApplication:
 
     # The repository must have at least two commits per month
     def __apply_criteria_3(self, repo):
+        monthly_commits_threshold = 2
         monthly_commits = {}
-        return self.get_commits_per_page(repo, 1, self.org["per_page"], monthly_commits)
+        
+        self.get_commits_per_page(repo, 1, self.org["per_page"], monthly_commits)
+
+        # compare monthly commits nb
+        for _, commit_count in monthly_commits.items():
+            if commit_count < monthly_commits_threshold:
+                return False
+        
+        return True
 
 
     # recursive method to calculate commits via pagination for repo
     def get_commits_per_page(self, repo, page_nb, per_page, monthly_commits):
-        monthly_commits_threshold = 2
 
         owner_name, repo_name = GitHelper.get_repo_details(repo)
         commits_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}/commits?per_page={per_page}&page={page_nb}"
@@ -137,14 +145,8 @@ class CriteriasApplication:
                 monthly_commits[month_year] += 1
             else:
                 monthly_commits[month_year] = 1
-             
-        # compare monthly commits nb
-        for month_year, commit_count in monthly_commits.items():
-            if commit_count < monthly_commits_threshold:
-                return False
-        
+
         # handle pagination: if lenght of response is 100, means there can be more on the next page
         if len(commits_response) == per_page:
-            return self.get_commits_per_page(repo, page_nb + 1, per_page, monthly_commits)
+            self.get_commits_per_page(repo, page_nb + 1, per_page, monthly_commits)
    
-        return True

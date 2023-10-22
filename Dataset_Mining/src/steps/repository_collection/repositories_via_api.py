@@ -48,7 +48,7 @@ class RepositoryCollectionViaAPI:
         total_repos += repos
         sleep(0.3)
 
-        criterias_app = CriteriasApplication(org_url, repos, criterias_count)
+        criterias_app = CriteriasApplication(org, repos, criterias_count)
         criterias_app.apply_criterias()
 
         # handle pagination: if lenght of response is 100, means there can be more on the next page
