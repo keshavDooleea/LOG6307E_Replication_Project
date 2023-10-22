@@ -4,6 +4,7 @@
 from helpers.util import Util
 from helpers.git import GitHelper
 from helpers.request import RequestHelper
+from helpers.json import JsonHelper
 import re
 
 class CommitMsgProcessing:
@@ -17,7 +18,7 @@ class CommitMsgProcessing:
             repos = self.dataset[org]
             
             Util.separate_line()
-            print("Processing", len(repos), "commit messages for", org)
+            print("Processing", len(repos), "repos for", org)
 
             extracted_commits = []
             extended_commit_messages = {}
@@ -67,4 +68,8 @@ class CommitMsgProcessing:
                 
                 print("Found", len(extended_commit_messages[repo_name]), "extended commit messages for", repo_name)
 
-            print("msges", extended_commit_messages)
+            JsonHelper.write({
+                org: {
+                    repo_name: extended_commit_messages[repo_name]
+                }
+            }, f"output/extended_commit_messages/{repo_name}.json")

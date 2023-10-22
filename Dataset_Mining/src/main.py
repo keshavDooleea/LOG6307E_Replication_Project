@@ -8,7 +8,7 @@ def apply_repo_collection():
     # repo_collection = RepositoryCollectionViaAPI()
     repo_collection = RepositoryCollectionViaJSON()
     repo_collection.create_dataset()
-    # dataset = repo_collection.dataset
+    dataset = repo_collection.dataset
     
     return
 
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     rate_limit = RequestHelper.get_rate_limit()
     print(rate_limit)
 
-    apply_repo_collection()
-    # apply_commit_msg_processing()
+    # apply_repo_collection()
+    apply_commit_msg_processing()
 
 
