@@ -8,6 +8,11 @@ class GitHelper:
 
         return owner_name, repo_name
     
+     # checks if a file is an iac script
+    @staticmethod
+    def is_iac_file(file_name: str):
+        return file_name.endswith('.pp')
+
     @staticmethod
     def get_mirantis_detail():
         return { "name": "Mirantis", "url": "api.github.com" }
@@ -23,7 +28,7 @@ class GitHelper:
     @staticmethod
     def get_repos_name():
         return [
-            GitHelper.get_mirantis_detail(), 
+            # GitHelper.get_mirantis_detail(), 
             GitHelper.get_wikimedia_detail(), 
             # GitHelper.get_openstack_detail()
         ]

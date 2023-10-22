@@ -8,6 +8,9 @@ class CriteriaCount:
         self.criterias_count["c3"] = 0
         self.criterias_count["repos"] = []
 
+    def get_repos(self):
+        return self.criterias_count["repos"]
+    
     def get_repos_length(self):
         return len(self.criterias_count["repos"])
     

@@ -16,7 +16,7 @@ class RepositoryCollectionViaJSON:
     def create_dataset(self):
         for org in GitHelper.get_repos_name():
             org_name = org["name"]
-            repos = JsonHelper.read(f"{org_name}.json")
+            repos = JsonHelper.read(f"output/all_repos/{org_name}.json")
 
             Util.separate_line()
             print("Mining", len(repos), "repos for", org_name)

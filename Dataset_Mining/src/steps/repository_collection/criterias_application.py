@@ -1,5 +1,6 @@
 from helpers.request import RequestHelper
 from helpers.git import GitHelper
+from helpers.json import JsonHelper
 from datetime import datetime
 
 class CriteriasApplication:
@@ -36,12 +37,9 @@ class CriteriasApplication:
                 self.criterias_count.increase_count("c3")
                 self.criterias_count.add_repo(repo)
 
+        JsonHelper.write(self.criterias_count.get_repos(), f'output/selected_repos/{self.criterias_count.org}.json')
+
         return self.criterias_count
-
-
-    # checks if a file is an iac script
-    def is_iac_file(self, file_name: str):
-        return file_name.endswith('.pp')
 
 
     # The repository must be available for download
@@ -69,7 +67,7 @@ class CriteriasApplication:
 
         # filter out iac files
         for file in files:
-            if self.is_iac_file(file['path']):
+            if GitHelper.is_iac_file(file['path']):
                 iac_files.append(file)
 
         # compare iac files with threshold

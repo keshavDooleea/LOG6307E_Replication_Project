@@ -15,9 +15,7 @@ class RepositoryCollectionViaAPI:
     def __init__(self):
         print(f"Preparing dataset for 3.1.1. Repository collection. Fetching API.")
         self.dataset = {}
-
-        rate_limit = RequestHelper.get_rate_limit()
-        print(rate_limit)
+        
 
     def create_dataset(self):
         for org in GitHelper.get_repos_name():
@@ -33,7 +31,7 @@ class RepositoryCollectionViaAPI:
             Util.separate_line()
             criterias_count.print_count()
 
-            JsonHelper.write(total_repos, f'{org_name}.json')
+            JsonHelper.write(total_repos, f'output/all_repos/{org_name}.json')
         
         Util.separate_line()
         print(f"Finished 3.1.1. Repository collection")
