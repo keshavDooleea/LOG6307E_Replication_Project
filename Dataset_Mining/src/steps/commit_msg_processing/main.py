@@ -19,12 +19,11 @@ class CommitMsgProcessing:
             Util.separate_line()
             print("Processing", len(repos), "repos for", org)
 
-            extracted_commits = []
-            extended_commit_messages = {}
-
             for idx, repo in enumerate(repos):
+                extracted_commits = []
+                extended_commit_messages = []
+
                 owner_name, repo_name = GitHelper.get_repo_details(repo)
-                extended_commit_messages[repo_name] = []
                 self.org_url = "api.github.com"
                 per_page = 100
                 page_nb = 1
@@ -63,10 +62,10 @@ class CommitMsgProcessing:
                         except:
                             extended_message = f"Commit Message: {commit_msg}"
 
-                        extended_commit_messages[repo_name].append(extended_message)
+                        extended_commit_messages.append(extended_message)
                 
-                print(f"#{idx + 1}: Found", len(extended_commit_messages[repo_name]), "extended commit messages for", repo_name)
+                print(f"#{idx + 1}: Found", len(extended_commit_messages), "extended commit messages for", repo_name)
 
                 org_xcm = JsonHelper.read(f"output/extended_commit_messages/{org}.json")
-                org_xcm[repo_name] = extended_commit_messages[repo_name]
+                org_xcm[repo_name] = extended_commit_messages
                 JsonHelper.write(org_xcm, f"output/extended_commit_messages/{org}.json")
