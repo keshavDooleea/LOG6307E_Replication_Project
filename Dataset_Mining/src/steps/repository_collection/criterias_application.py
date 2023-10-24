@@ -19,7 +19,7 @@ class CriteriasApplication:
 
         for idx, repo in enumerate(self.repos):
 
-            print(f"#{idx}: Applying criterias for", repo["name"], "repo") 
+            print(f"#{idx + 1}: Applying criterias for", repo["name"], "repo") 
 
             # apply criteria 1
             is_repo_downloadable = self.__apply_criteria_1(repo)
@@ -48,7 +48,7 @@ class CriteriasApplication:
 
     # The repository must be available for download
     def __apply_criteria_1(self, repo):
-        return not repo["archived"]
+        return not repo["private"] and not repo['fork']
 
 
     # At least 11% of the files belonging to the repository must be IaC scripts
@@ -72,23 +72,22 @@ class CriteriasApplication:
         
         # get all files in repository
         owner_name, repo_name = GitHelper.get_repo_details(repo)
-        branch = repo["default_branch"]
+        iac_files_nb = 0
+        files_nb = 0
 
-        repo_files_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}/git/trees/{branch}?recursive=1"
+        repo_files_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}/languages"
         files_response = RequestHelper.get_api_response(repo_files_url)
+
         if not files_response:
-            return False
-        
-        files = files_response["tree"]
-        if not files:
-            return False
+            return 0, 0
 
-        # filter out iac files
-        for file in files:
-            if GitHelper.is_iac_file(file['path']):
-                iac_files.append(file)
-
-        return len(iac_files), len(files)
+        for key, value in files_response.items():
+            files_nb += value
+            
+            if key == "Puppet":
+                iac_files_nb += value
+                
+        return iac_files_nb, files_nb
 
 
     def __apply_criteria_2_for_openstack(self, repo):
@@ -147,6 +146,6 @@ class CriteriasApplication:
                 monthly_commits[month_year] = 1
 
         # handle pagination: if lenght of response is 100, means there can be more on the next page
-        if len(commits_response) == per_page:
+        if len(commits_response) == per_page and page_nb < 100:
             self.get_commits_per_page(repo, page_nb + 1, per_page, monthly_commits)
    
