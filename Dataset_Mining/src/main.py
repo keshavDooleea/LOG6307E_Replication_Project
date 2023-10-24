@@ -35,7 +35,7 @@ if __name__ == "__main__":
     print(rate_limit)
 
     if rate_limit["remaining"] == 0:
-        print("not enough rate")
+        print("Not enough rate. Exiting.")
         exit(0)
 
     apply_repo_collection(False)

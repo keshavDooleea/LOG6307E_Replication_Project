@@ -26,8 +26,10 @@ class RepositoryCollectionViaJSON:
             criterias_app.apply_criterias()
 
             self.dataset[org_name] = criterias_count
+
             Util.separate_line()
             criterias_count.print_count()
+            criterias_count.save_count()
     
         Util.separate_line()
         print(f"Finished 3.1.1. Repository collection")

@@ -54,59 +54,25 @@ class CriteriasApplication:
     # At least 11% of the files belonging to the repository must be IaC scripts
     def __apply_criteria_2(self, repo):
         iac_threshold = 0.11
+        iac_files_nb = 0
+        files_nb = 0
+        owner_name, repo_name = GitHelper.get_repo_details(repo)
         
-        if self.org["name"] == "Openstack":
-            iac_files, files = self.__apply_criteria_2_for_openstack(repo)
-        else:
-            iac_files, files = self.__apply_criteria_2_for_git(repo)
-
-        if files == 0:
+        repo_files_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}/languages"
+        files_response = RequestHelper.get_api_response(repo_files_url, self.org["add_token"])
+        
+        if not files_response:
             return False
         
-        # compare iac files with threshold
-        return (iac_files / files) >= iac_threshold
-    
-
-    def __apply_criteria_2_for_git(self, repo):
-        iac_files = []
+        for key, value in files_response.items():
+            files_nb += value
+            
+            if key == "Puppet":
+                iac_files_nb += value
         
-        # get all files in repository
-        owner_name, repo_name = GitHelper.get_repo_details(repo)
-        iac_files_nb = 0
-        files_nb = 0
-
-        repo_files_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}/languages"
-        files_response = RequestHelper.get_api_response(repo_files_url)
-
-        if not files_response:
-            return 0, 0
-
-        for key, value in files_response.items():
-            files_nb += value
-            
-            if key == "Puppet":
-                iac_files_nb += value
-                
-        return iac_files_nb, files_nb
-
-
-    def __apply_criteria_2_for_openstack(self, repo):
-        iac_files_nb = 0
-        files_nb = 0
-
-        _, repo_name = GitHelper.get_repo_details(repo)
-
-        repo_files_url = f"https://opendev.org/api/v1/repos/openstack/{repo_name}/languages"
-        files_response = RequestHelper.get_api_response(repo_files_url, self.org["add_token"])
-
-        for key, value in files_response.items():
-            files_nb += value
-            
-            if key == "Puppet":
-                iac_files_nb += value
-                
-        return iac_files_nb, files_nb
-
+        # compare iac files with threshold
+        return (iac_files_nb / files_nb) >= iac_threshold
+    
 
     # The repository must have at least two commits per month
     def __apply_criteria_3(self, repo):
@@ -145,7 +111,7 @@ class CriteriasApplication:
             else:
                 monthly_commits[month_year] = 1
 
-        # handle pagination: if lenght of response is 100, means there can be more on the next page
+        # handle pagination: there can be more on the next page
         if len(commits_response) == per_page and page_nb < 100:
             self.get_commits_per_page(repo, page_nb + 1, per_page, monthly_commits)
    
