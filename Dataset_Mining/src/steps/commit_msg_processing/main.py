@@ -15,6 +15,9 @@ class CommitMsgProcessing:
     def process(self):
         for org in self.dataset:
             repos = self.dataset[org]
+            nb_puppet_files = 0
+            nb_puppet_defective_files = 0
+            nb_xcm = 0
 
             Util.separate_line()
             print("Processing", len(repos), "repos for", org)
@@ -40,6 +43,7 @@ class CommitMsgProcessing:
 
                     for file in files:
                         if GitHelper.is_iac_file(file["filename"]):
+                            nb_puppet_files += 1
                             extracted_commits.append(commit)
                             break
 
@@ -63,9 +67,16 @@ class CommitMsgProcessing:
                             extended_message = f"Commit Message: {commit_msg}"
 
                         extended_commit_messages.append(extended_message)
+                        nb_xcm += 1
                 
-                print(f"#{idx + 1}: Found", len(extended_commit_messages), "extended commit messages for", repo_name)
+                print(f"#{idx + 1}: ", repo_name)
 
                 org_xcm = JsonHelper.read(f"output/extended_commit_messages/{org}.json")
                 org_xcm[repo_name] = extended_commit_messages
                 JsonHelper.write(org_xcm, f"output/extended_commit_messages/{org}.json")
+            
+            print("Org:", org)
+            print("Found", nb_xcm, "xcm")
+            print("Found", nb_puppet_files, "puppet scripts")
+
+

@@ -1,4 +1,7 @@
 {
     "analytics-vagrant-kraken": [],
-    "analytics-vagrant-build": []
+    "analytics-vagrant-build": [],
+    "mediawiki-vagrant": [],
+    "labs-maps": [],
+    "operations-puppet": []
 }

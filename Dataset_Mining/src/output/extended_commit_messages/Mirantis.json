@@ -144,5 +144,27 @@
         "Commit Message: Merge pull request #1 from alekseychuprin/7.0\n\nFix autostart openldap issue.\nIssue Summary: Fix autostart openldap issue."
     ],
     "fuel-plugin-external-ceph": [],
-    "fuel-plugin-lcm": []
+    "fuel-plugin-lcm": [],
+    "puppet-savanna": [],
+    "solar": [],
+    "solar-resources": [],
+    "fuel-plugin-backup": [],
+    "fuel-plugin-standalone-ceph": [
+        "Commit Message: Merge pull request #7 from noskovao/master\n\nadd ssl part2\nIssue Summary: add ssl part2",
+        "Commit Message: Merge pull request #6 from achekunov/SSL\n\nadd ssl part1\nIssue Summary: add ssl part1",
+        "Commit Message: Merge pull request #2 from dnikishov/8.0-fixes\n\nFixes for radosgw and haproxy stats\nIssue Summary: Fixes for radosgw and haproxy stats",
+        "Commit Message: Merge pull request #1 from gleb108/master\n\nbugfixes for 8.0\nIssue Summary: bugfixes for 8.0"
+    ],
+    "fuel-plugin-etckeeper": [],
+    "fuel-plugin-vxlan-vlan-7": [
+        "Commit Message: Merge pull request #9 from mitroko/master\n\nFix for bug in selector. Default setting should not be quoted.\nIssue Summary: Fix for bug in selector. Default setting should not be quoted.",
+        "Commit Message: Merge pull request #8 from mitroko/master\n\nUpdating README.md. MOS9 supported now.\nIssue Summary: Updating README.md. MOS9 supported now.",
+        "Commit Message: Merge pull request #7 from mitroko/ml2_conf_path_fix\n\nMl2 conf path fix\nIssue Summary: Ml2 conf path fix",
+        "Commit Message: Merge pull request #6 from mitroko/MOS9_template\n\nMos9 template\nIssue Summary: Mos9 template",
+        "Commit Message: Merge pull request #4 from mitroko/lint_fix\n\nPuppet lint checks\nIssue Summary: Puppet lint checks",
+        "Commit Message: Merge pull request #2 from mitroko/fix_metadata\n\nMetadata extraction fix\nIssue Summary: Metadata extraction fix",
+        "Commit Message: Merge pull request #1 from mitroko/refactoring_1\n\nRefactoring 1\nIssue Summary: Refactoring 1",
+        "Commit Message: Refactoring #1\n\n1) Cosmetic metadata changes\n2) Functional fixes for puppet manifests.\n\nThis refactoring step provides minimal changes from original version.\nRight way to change values in ml2_conf.ini is to make hiera override.\nThis step will be proposed later.\n\nType: refactor\nTask: MOSS-331\nIssue Summary: Refactoring 1",
+        "Commit Message: Refactoring #1\n\n1) Cosmetic metadata changes\n2) Functional fixes for puppet manifests.\n\nThis refactoring step provides minimal changes from original version.\nRight way to change values in ml2_conf.ini is to make hiera override.\nThis step will be proposed later.\n\nType: refactor\nTask: MOSS-331\nIssue Summary: Refactoring 1"
+    ]
 }
