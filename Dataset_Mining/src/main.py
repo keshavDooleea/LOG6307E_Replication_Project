@@ -34,6 +34,6 @@ if __name__ == "__main__":
         exit(0)
 
     # apply_repo_collection(False)
-    apply_commit_msg_processing()
+    # apply_commit_msg_processing()
 
 
