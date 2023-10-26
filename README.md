@@ -7,15 +7,48 @@ This project is a replication study aimed to validate the empirical findings of 
 
 ## Installation
 
-Instructions to install any required packages, software, or data sets to replicate this study.
+To replicate this study, you'll need to install the required packages, software, or data sets. Below are the steps for different parts of the project.
+
+### General Setup
 
 1. Clone this repository to your local machine.
+    ```bash
+    git clone https://github.com/keshavDooleea/LOG6307E_Replication_Project
+    ```
 
-For mining repositories section
-2.1 cd Dataset_Mining\
+### For Mining Repositories
 
-For building prediction model
-2.2 cd Prediction_Model\
+1. Navigate to the `Dataset_Mining` directory.
+    ```bash
+    cd Dataset_Mining/
+    ```
+  
+2. Activate the virtual environment.
+    ```bash
+    .\venv\Scripts\Activate
+    ```
+  
+3. Install the required packages from `requirements.txt`.
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Go to the `src` folder and run the main script.
+    ```bash
+    cd src/
+    python main.py
+    ```
+
+### For Building Prediction Model
+
+1. Navigate to the `Prediction_Model` directory.
+    ```bash
+    cd Prediction_Model/
+    ```
+  
+2. Follow the respective README or instructions inside `Prediction_Model` for setting up and running the prediction model.
+
+
 
 ## Data Mining
 
