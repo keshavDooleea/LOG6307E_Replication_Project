@@ -19,9 +19,7 @@ class CommitMsgProcessing:
             self.add_token = org_item["add_token"]        
 
             self.nb_puppet_files = {}
-            self.nb_puppet_defective_files = 0
             self.nb_puppet_commits = 0
-            self.nb_xcm = 0
 
             Util.separate_line()
             print("Processing", len(repos), "repos for", org)
@@ -87,7 +85,6 @@ class CommitMsgProcessing:
                         try:
                             issue_summary = issue_response["title"]
                             extended_message = f"Commit Message: {commit_msg}\nIssue Summary: {issue_summary}"
-                            self.nb_puppet_defective_files += 1
                         except:
                             extended_message = f"Commit Message: {commit_msg}"
 
