@@ -4,7 +4,7 @@ from steps.repository_collection.repositories_via_json import (
 )
 from steps.commit_msg_processing.main import CommitMsgProcessing
 from helpers.request import RequestHelper
-from helpers.json import JsonHelper
+from helpers.git import GitHelper
 from sys import exit
 
 def apply_repo_collection(makeAPIRequest):
@@ -18,12 +18,7 @@ def apply_repo_collection(makeAPIRequest):
 
 
 def apply_commit_msg_processing():
-    dataset = {
-        "Mirantis": JsonHelper.read("output/selected_repos/Mirantis.json"),
-        "Wikimedia": JsonHelper.read("output/selected_repos/Wikimedia.json"),
-        "Openstack": JsonHelper.read("output/selected_repos/Openstack.json"),
-    }
-
+    dataset = GitHelper.get_repos_name()
     msg_processing = CommitMsgProcessing(dataset)
     msg_processing.process()
 
