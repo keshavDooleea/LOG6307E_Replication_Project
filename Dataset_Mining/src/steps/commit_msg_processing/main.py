@@ -19,9 +19,7 @@ class CommitMsgProcessing:
             self.add_token = org_item["add_token"]        
 
             self.nb_puppet_files = {}
-            self.nb_puppet_defective_files = 0
             self.nb_puppet_commits = 0
-            self.nb_xcm = 0
 
             Util.separate_line()
             print("Processing", len(repos), "repos for", org)
@@ -46,6 +44,7 @@ class CommitMsgProcessing:
 
     def handle_pagination(self, org, owner_name, repo_name, page_nb, per_page, extended_commit_messages, idx):
         print("repo", repo_name, ", page:", page_nb, ", nb_xcm:", self.nb_xcm)
+
         commits_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}/commits?per_page={per_page}&page={page_nb}"
         commits_response = RequestHelper.get_api_response(commits_url, self.add_token)
 
@@ -53,10 +52,15 @@ class CommitMsgProcessing:
             return
         
         for commit in commits_response:
+            if org == "Openstack":
+                extra_query = "/git"
+            else:
+                extra_query = ""
+        
             commit_sha = commit["sha"]
-            commit_sha_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}/commits/{commit_sha}"
+            commit_sha_url = f"https://{self.org_url}/repos/{owner_name}/{repo_name}{extra_query}/commits/{commit_sha}"
             commit_sha_response = RequestHelper.get_api_response(commit_sha_url, self.add_token)
-
+           
             files = commit_sha_response["files"]
 
             for file in files:
@@ -81,7 +85,6 @@ class CommitMsgProcessing:
                         try:
                             issue_summary = issue_response["title"]
                             extended_message = f"Commit Message: {commit_msg}\nIssue Summary: {issue_summary}"
-                            self.nb_puppet_defective_files += 1
                         except:
                             extended_message = f"Commit Message: {commit_msg}"
 
@@ -101,14 +104,9 @@ class CommitMsgProcessing:
         for key in self.nb_puppet_files:
             nb_pupp_scripts += 1
 
-        def_pupp_commits = self.nb_puppet_defective_files
-        def_rel_commits = self.nb_xcm
-
         data = {
             "Puppet Scripts": nb_pupp_scripts,
-            "Defective Puppet Scripts": f"{def_pupp_commits} ({(def_pupp_commits / nb_pupp_scripts) * 100}%)",
             "Commits with Puppet Scripts": self.nb_puppet_commits,
-            "Defect-related Commits": f"{def_rel_commits} ({(def_rel_commits / self.nb_puppet_commits) * 100}%)",
         }
 
         JsonHelper.write(data, f'output/defective_commits/{org}.json')

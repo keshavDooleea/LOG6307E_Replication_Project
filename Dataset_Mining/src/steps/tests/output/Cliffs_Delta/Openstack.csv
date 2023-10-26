@@ -1,0 +1,13 @@
+,d,res
+URL,0.001034193006269795,negligible
+File,0.08513132096610863,negligible
+Lines_of_code,0.3282334690711654,small
+Require,0.11446577467519876,negligible
+Ensure,0.19215090599616486,small
+Include,0.22077650658220757,small
+Attribute,0.34939348889319805,medium
+Hard_coded_string,0.37380906211621745,medium
+Comment,0.00496843556762114,negligible
+Command,0.0653351431710943,negligible
+File_mode,0.06583284855536164,negligible
+SSH_KEY,0.07149505526468877,negligible
