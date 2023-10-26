@@ -33,7 +33,7 @@ if __name__ == "__main__":
         print("Not enough rate. Exiting.")
         exit(0)
 
-    # apply_repo_collection(False)
-    # apply_commit_msg_processing()
+    apply_repo_collection(False)
+    apply_commit_msg_processing()
 
 

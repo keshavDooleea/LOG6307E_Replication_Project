@@ -47,7 +47,7 @@ class GitHelper:
     @staticmethod
     def get_repos_name():
         return [
-            # GitHelper.get_mirantis_detail(),
-            # GitHelper.get_wikimedia_detail(),
+            GitHelper.get_mirantis_detail(),
+            GitHelper.get_wikimedia_detail(),
             GitHelper.get_openstack_detail()
         ]
