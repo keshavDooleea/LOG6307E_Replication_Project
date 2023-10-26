@@ -11,88 +11,101 @@ To replicate this study, you'll need to install the required packages, software,
 ### General Setup
 
 1. Clone this repository to your local machine.
+
    ```bash
    git clone https://github.com/keshavDooleea/LOG6307E_Replication_Project
+   ```
+
+2. Create a `.env` file on the root and add your GitHub API token as follows.
+   ```bash
+   GITHUB_TOKEN=abcd..
    ```
 
 ### For Mining Repositories
 
 1. Navigate to the `Dataset_Mining` directory.
-    ```bash
-    cd Dataset_Mining/
-    ```
+
+   ```bash
+   cd Dataset_Mining/
+   ```
 
 2. Create a virtual environment.
-    ```
-    python -m venv venv
-    ```
-  
-3. Activate the virtual environment.
-    ```bash
-    source venv/bin/activate  # On macOS and Linux
-    .\venv\Scripts\Activate   # On Windows    ```
-  
-4. Install the required packages from `requirements.txt`.
-    ```bash
-    pip install -r requirements.txt
-    ```
 
-5. Go to the `src` folder and run the main script.
-    ```bash
-    cd src/
-    python main.py
-    ```
+   ```
+   python -m venv venv
+   ```
+
+3. Activate the virtual environment.
+
+   ````bash
+   source venv/bin/activate  # On macOS and Linux
+   .\venv\Scripts\Activate   # On Windows    ```
+
+   ````
+
+4. Install the required packages from `requirements.txt`.
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. To run the section 3.1.1. Repository Collection and 3.1.2. Commit Messaging Processing:
+
+   ```bash
+   cd dataset_mining\src
+   python main.py
+   ```
+
+6. To run the Mann-Whitney U test and Cliff's Delta:
+
+   ```bash
+      cd dataset_mining\src\steps\tests
+      python main.py
+   ```
 
 ### For Building Prediction Model
 
 1. Navigate to the `Prediction_Model` directory.
-    ```bash
-    cd Prediction_Model/
-    ```
+
+   ```bash
+   cd Prediction_Model/
+   ```
 
 2. Navigate further into the `src` folder.
-    ```bash
-    cd src/
-    ```
+
+   ```bash
+   cd src/
+   ```
 
 3. Create a virtual environment.
-    ```
-    python -m venv venv
-    ```
-  
+
+   ```
+   python -m venv venv
+   ```
 
 4. Activate the virtual environment.
-    ```bash
-    source venv/bin/activate  # On macOS and Linux
-    .\venv\Scripts\Activate   # On Windows
-    ```
+
+   ```bash
+   source venv/bin/activate  # On macOS and Linux
+   .\venv\Scripts\Activate   # On Windows
+   ```
 
 5. Install the required packages from `requirements.txt`.
-    ```bash
-    pip install -r requirements.txt
-    ```
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 6. Run the main script to build the prediction model.
-    ```bash
-    python main.py
-    ```
+   ```bash
+   python main.py
+   ```
 
 Follow these steps to set up and run the prediction model part of the project.
-
 
 ## Data Mining
 
 We collected data from repositories of organizations such as Mirantis, OpenStack, and Wikimedia. The data mining process involved applying specific filtering criteria to isolate repositories containing potentially defective IaC scripts.
-
-To run the section 3.1.1. Repository Collection and 3.1.2. Commit Messaging Processing:
-
-1. Navigate to `dataset_mining\src`
-2. Run `main.py`
-
-To run the Mann-Whitney U test and Cliff's Delta:
-
-1. Navigate to `dataset_mining\src\steps\tests`
-2. Run `main.py`
 
 ## Building prediction model
 
