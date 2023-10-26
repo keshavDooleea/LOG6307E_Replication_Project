@@ -22,18 +22,23 @@ To replicate this study, you'll need to install the required packages, software,
     ```bash
     cd Dataset_Mining/
     ```
-  
-2. Activate the virtual environment.
-    ```bash
-    .\venv\Scripts\Activate
+
+2. Create a virtual environment.
+    ```
+    python -m venv venv
     ```
   
-3. Install the required packages from `requirements.txt`.
+3. Activate the virtual environment.
+    ```bash
+    source venv/bin/activate  # On macOS and Linux
+    .\venv\Scripts\Activate   # On Windows    ```
+  
+4. Install the required packages from `requirements.txt`.
     ```bash
     pip install -r requirements.txt
     ```
 
-4. Go to the `src` folder and run the main script.
+5. Go to the `src` folder and run the main script.
     ```bash
     cd src/
     python main.py
@@ -45,9 +50,35 @@ To replicate this study, you'll need to install the required packages, software,
     ```bash
     cd Prediction_Model/
     ```
-  
-2. Follow the respective README or instructions inside `Prediction_Model` for setting up and running the prediction model.
 
+2. Navigate further into the `src` folder.
+    ```bash
+    cd src/
+    ```
+
+3. Create a virtual environment.
+    ```
+    python -m venv venv
+    ```
+  
+
+4. Activate the virtual environment.
+    ```bash
+    source venv/bin/activate  # On macOS and Linux
+    .\venv\Scripts\Activate   # On Windows
+    ```
+
+5. Install the required packages from `requirements.txt`.
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+6. Run the main script to build the prediction model.
+    ```bash
+    python main.py
+    ```
+
+Follow these steps to set up and run the prediction model part of the project.
 
 
 ## Data Mining
